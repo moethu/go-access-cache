@@ -16,7 +16,7 @@ func assert(t *testing.T, expected interface{}, actual interface{}) {
 
 // Test Appending to last viewed
 func TestAppendLastViewed(t *testing.T) {
-	m := AccessCache(500)
+	m := NewAccessCache(500)
 	m.appendLastViewed("a")
 	assert(t, m.lastviewed[0], "a")
 	m.appendLastViewed("b")
@@ -27,7 +27,7 @@ func TestAppendLastViewed(t *testing.T) {
 
 // Test size allocation and growth in bytes
 func TestSizeAllocation(t *testing.T) {
-	m := AccessCache(24)
+	m := NewAccessCache(24)
 	assert(t, uint64(24), m.maxsize)
 	m.Set("a", 1024)
 	assert(t, m.GetCacheSize(), uint64(8))
@@ -41,7 +41,7 @@ func TestSizeAllocation(t *testing.T) {
 
 // Test last viewed order
 func TestLastViewedOrder(t *testing.T) {
-	m := AccessCache(500)
+	m := NewAccessCache(500)
 	m.Set("a", 1)
 	m.Set("b", 2)
 	m.Set("c", 3)
@@ -51,7 +51,7 @@ func TestLastViewedOrder(t *testing.T) {
 }
 
 func TestSizes(t *testing.T) {
-	m := AccessCache(900)
+	m := NewAccessCache(900)
 	rand.Seed(time.Now().UnixNano())
 	err := m.Set("a", randSeq(1024))
 	assert(t, "Cannot add elements larger than the maximum cache size", err.Error())
@@ -59,7 +59,7 @@ func TestSizes(t *testing.T) {
 
 // test order and shifting
 func TestReadWriteCacheAndOrder(t *testing.T) {
-	m := AccessCache(40)
+	m := NewAccessCache(40)
 	m.Set("a", 1)
 	assert(t, m.lastviewed[0], "a")
 	m.Set("b", 2)
@@ -94,7 +94,7 @@ func populateCache(i int, m *AccessCache, t *testing.T) {
 }
 
 func TestGetItemSizesAndDuration(t *testing.T) {
-	m := AccessCache(1024 * 1024 * 25)
+	m := NewAccessCache(1024 * 1024 * 25)
 	assert(t, len(m.GetItemSizes()), 0)
 	assert(t, m.GetAverageDurationForGet(), 0.0)
 	assert(t, m.GetAverageDurationForSet(), 0.0)
@@ -104,7 +104,7 @@ func TestGetItemSizesAndDuration(t *testing.T) {
 
 // test concurrency and shifting
 func TestConcurrency(t *testing.T) {
-	m := AccessCache(1024 * 1024 * 25)
+	m := NewAccessCache(1024 * 1024 * 25)
 	m.verbose = true
 	for i := 0; i < 10; i++ {
 		go populateCache(i, &m, t)
@@ -130,7 +130,7 @@ type teststruct struct {
 }
 
 func TestSizeOf(t *testing.T) {
-	m := AccessCache(500)
+	m := NewAccessCache(500)
 	m.Set("a", 5)
 	a := teststruct{}
 	assert(t, int(sizeof("")), 16)
@@ -145,14 +145,14 @@ func TestSizeOf(t *testing.T) {
 }
 
 func TestIsNativeType(t *testing.T) {
-	m := AccessCache(500)
+	m := NewAccessCache(500)
 	v := reflect.ValueOf(m)
 	assert(t, isNativeType(5), true)
 	assert(t, isNativeType(v.Kind()), false)
 }
 
 func TestEmptyCache(t *testing.T) {
-	m := AccessCache(500)
+	m := NewAccessCache(500)
 	m.clearOutdatedItems()
 	key := m.GetLastViewedKey()
 	assert(t, "", key)

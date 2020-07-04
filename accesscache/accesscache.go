@@ -1,5 +1,5 @@
 // Go Access Cache keeping most requested elements in memory
-// Usage: m := NewInMemoryCache(<maximum byte size>)
+// Usage: m := NewAccessCache(<maximum byte size>)
 // Store data: m.Set(<key>, <value>)
 // Read data: <value>, exists = m.Get(<key>)
 package accesscache
