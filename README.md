@@ -1,5 +1,7 @@
 # Go Access Cache
 
+[![Go Report Card](https://goreportcard.com/badge/github.com/moethu/go-access-cache)](https://goreportcard.com/report/github.com/moethu/go-access-cache)
+
 A simple in memory cache with a maximum byte size keeping most and recent requested elements in memory while rotating rarely requested elements out.
 
 ### Example
