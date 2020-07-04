@@ -1,4 +1,4 @@
-// Go Access Cache keeping most requested elements in memory
+// Package accesscache keeping most requested elements in memory
 // Usage: m := NewAccessCache(<maximum byte size>)
 // Store data: m.Set(<key>, <value>)
 // Read data: <value>, exists = m.Get(<key>)
@@ -12,7 +12,7 @@ import (
 	"time"
 )
 
-// Go Access Cache Structure
+// AccessCache Structure
 type AccessCache struct {
 	// cache holding keys and objects
 	cache map[string]interface{}
@@ -159,7 +159,7 @@ func calcAvg(currAvg float64, currCtr int64, newValue float64) float64 {
 func (c *AccessCache) GetCacheSize() uint64 {
 	var size uint64
 	size = 0
-	for k, _ := range c.cache {
+	for k := range c.cache {
 		size = size + c.sizes[k]
 	}
 	return size
@@ -192,9 +192,8 @@ func (c *AccessCache) GetLastViewedKey() string {
 	i := len(c.lastviewed) - 1
 	if i < 0 {
 		return ""
-	} else {
-		return c.lastviewed[i]
 	}
+	return c.lastviewed[i]
 }
 
 var (
