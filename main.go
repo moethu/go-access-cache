@@ -26,7 +26,7 @@ func main() {
 	m.Set("key-c", "third string")
 	log.Println("Highest Prio Item:", m.GetLastViewedKey(), "Cache Size:", m.GetCacheSize())
 
-	// Requesting first item, wich again gets the highest prio, cache size is at 56
+	// Requesting first item, which again gets the highest prio, cache size is at 56
 	// containing only the first and the second item
 	m.Get("key-a")
 	log.Println("Highest Prio Item:", m.GetLastViewedKey(), "Cache Size:", m.GetCacheSize())
